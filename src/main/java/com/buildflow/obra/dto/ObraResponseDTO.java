@@ -8,7 +8,8 @@ public class ObraResponseDTO {
 
     private String cei;
     private String nome;
-    private String construtora;
+    private String construtoraNome;
+    private Long construtoraId;
     private BigDecimal valorM2;
     private BigDecimal totalGeral;
     private LocalDate dataInicio;
@@ -22,13 +23,14 @@ public class ObraResponseDTO {
 
     public ObraResponseDTO() {}
 
-    public ObraResponseDTO(String cei, String nome, String construtora, BigDecimal valorM2, 
+    public ObraResponseDTO(String cei, String nome, String construtoraNome, Long construtoraId, BigDecimal valorM2, 
                           BigDecimal totalGeral, LocalDate dataInicio, LocalDate dataFim, 
                           String local, LocalDateTime dataCriacao, boolean ativo, 
                           boolean emAndamento, boolean concluida, String usuarioCriadorNome) {
         this.cei = cei;
         this.nome = nome;
-        this.construtora = construtora;
+        this.construtoraNome = construtoraNome;
+        this.construtoraId = construtoraId;
         this.valorM2 = valorM2;
         this.totalGeral = totalGeral;
         this.dataInicio = dataInicio;
@@ -57,12 +59,20 @@ public class ObraResponseDTO {
         this.nome = nome;
     }
 
-    public String getConstrutora() {
-        return construtora;
+    public String getConstrutoraNome() {
+        return construtoraNome;
     }
 
-    public void setConstrutora(String construtora) {
-        this.construtora = construtora;
+    public void setConstrutoraNome(String construtoraNome) {
+        this.construtoraNome = construtoraNome;
+    }
+
+    public Long getConstrutoraId() {
+        return construtoraId;
+    }
+
+    public void setConstrutoraId(Long construtoraId) {
+        this.construtoraId = construtoraId;
     }
 
     public BigDecimal getValorM2() {

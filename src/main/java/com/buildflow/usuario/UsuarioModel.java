@@ -32,7 +32,7 @@ public class UsuarioModel {
     private UsuarioFuncao funcao;
 
     @Column(name = "ativo", nullable = false)
-    private Boolean is_ativo = true;
+    private Boolean ativo = true;
 
     @Column(name = "data_criacao", nullable = false)
     private LocalDateTime dataCriacao;
@@ -40,7 +40,7 @@ public class UsuarioModel {
     public UsuarioModel() {
 
         this.dataCriacao = LocalDateTime.now();
-        this.is_ativo = true;
+        this.ativo = true;
     }
 
     public Long getId() {
@@ -100,7 +100,7 @@ public class UsuarioModel {
 
     public Boolean getAtivo() {
 
-        return is_ativo;
+        return ativo;
     }
 
     public LocalDateTime getDataCriacao() {
@@ -120,11 +120,11 @@ public class UsuarioModel {
 
     public boolean isAtivo() {
 
-        return is_ativo != null && is_ativo;
+        return ativo != null && ativo;
     }
 
     public void setAtivo(Boolean ativo) {
 
-        this.is_ativo = ativo;
+        this.ativo = ativo;
     }
 }

@@ -1,5 +1,6 @@
 package com.buildflow.obra;
 
+import com.buildflow.construtora.ConstrutoraModel;
 import com.buildflow.equipe.EquipeModel;
 import com.buildflow.torre.TorreModel;
 import com.buildflow.usuario.UsuarioModel;
@@ -23,8 +24,17 @@ public class ObraModel {
     @Column(name = "nome", nullable = false, length = 255)
     private String nome;
 
-    @Column(name = "construtora", nullable = false, length = 255)
-    private String construtora;
+    @Column(name = "razao_social", nullable = false, length = 255)
+    private String razaoSocial;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "db_obra_construtora",
+            joinColumns = @JoinColumn(name = "obra_cei"),
+            inverseJoinColumns = @JoinColumn(name = "construtora_id")
+    )
+    @JsonIgnore
+    private List<ConstrutoraModel> construtoras = new ArrayList<>();
 
     @Column(name = "valor_m2", nullable = true, precision = 15, scale = 2)
     private BigDecimal valorM2;
@@ -89,14 +99,25 @@ public class ObraModel {
         this.nome = nome;
     }
 
-    public String getConstrutora() {
-
-        return construtora;
+    public List<ConstrutoraModel> getConstrutoras() {
+        return construtoras;
     }
 
-    public void setConstrutora(String construtora) {
+    public void setConstrutoras(List<ConstrutoraModel> construtoras) {
+        this.construtoras = construtoras;
+    }
 
-        this.construtora = construtora;
+    public void addConstrutora(ConstrutoraModel construtora) {
+        if (this.construtoras == null) {
+            this.construtoras = new ArrayList<>();
+        }
+        this.construtoras.add(construtora);
+    }
+
+    public void removeConstrutora(ConstrutoraModel construtora) {
+        if (this.construtoras != null) {
+            this.construtoras.remove(construtora);
+        }
     }
 
     public BigDecimal getValorM2() {

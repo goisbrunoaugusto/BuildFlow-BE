@@ -25,8 +25,6 @@ public interface AtividadeRepository extends JpaRepository<AtividadeModel, Long>
     
     List<AtividadeModel> findByDataRealizadaBetween(LocalDateTime dataInicio, LocalDateTime dataFim);
     
-    List<AtividadeModel> findByDataRealizadaDate(LocalDate data);
-    
     @Query("SELECT a FROM AtividadeModel a WHERE " +
            "DATE(a.dataRealizada) = :dataAtual")
     List<AtividadeModel> findAtividadesHoje(@Param("dataAtual") LocalDate dataAtual);

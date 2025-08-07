@@ -9,7 +9,7 @@ public class ObraUpdateDTO {
     @Size(max = 255, message = "Nome deve ter no máximo 255 caracteres")
     private String nome;
 
-    @Size(max = 255, message = "Construtora deve ter no máximo 255 caracteres")
+    @Size(max = 255, message = "Nome da construtora principal deve ter no máximo 255 caracteres")
     private String construtora;
 
     @DecimalMin(value = "0.01", message = "Valor por m² deve ser maior que zero")

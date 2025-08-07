@@ -9,7 +9,6 @@ public class EquipeCreateDTO {
     @Size(max = 255, message = "Nome deve ter no máximo 255 caracteres")
     private String nome;
 
-    // Getters and Setters
     public String getNome() {
         return nome;
     }

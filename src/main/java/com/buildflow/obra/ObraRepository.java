@@ -16,7 +16,8 @@ public interface ObraRepository extends JpaRepository<ObraModel, Long> {
     
     List<ObraModel> findByAtivoTrue();
     
-    List<ObraModel> findByConstrutoraContainingIgnoreCaseAndAtivoTrue(String construtora);
+    @Query("SELECT DISTINCT o FROM ObraModel o JOIN o.construtoras c WHERE c.nome LIKE %:construtora% AND o.ativo = true")
+    List<ObraModel> findByConstrutoraNomeContainingIgnoreCaseAndAtivoTrue(@Param("construtora") String construtora);
     
     List<ObraModel> findByDataInicioBetweenAndAtivoTrue(LocalDate dataInicio, LocalDate dataFim);
     

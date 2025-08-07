@@ -1,5 +1,6 @@
 package com.buildflow.obra;
 
+import com.buildflow.construtora.ConstrutoraService;
 import com.buildflow.obra.dto.ObraCreateDTO;
 import com.buildflow.obra.dto.ObraResponseDTO;
 import com.buildflow.obra.dto.ObraUpdateDTO;
@@ -20,6 +21,9 @@ public class ObraService {
     @Autowired
     private ObraRepository obraRepository;
 
+    @Autowired
+    private ConstrutoraService construtoraService;
+
     public List<ObraResponseDTO> findAllActive() {
         return obraRepository.findByAtivoTrue()
                 .stream()
@@ -33,7 +37,7 @@ public class ObraService {
     }
 
     public List<ObraResponseDTO> findByConstrutora(String construtora) {
-        return obraRepository.findByConstrutoraContainingIgnoreCaseAndAtivoTrue(construtora)
+        return obraRepository.findByConstrutoraNomeContainingIgnoreCaseAndAtivoTrue(construtora)
                 .stream()
                 .map(this::convertToResponseDTO)
                 .collect(Collectors.toList());
@@ -61,7 +65,7 @@ public class ObraService {
         ObraModel obra = new ObraModel();
         obra.setCei(createDTO.getCei());
         obra.setNome(createDTO.getNome());
-        obra.setConstrutora(createDTO.getConstrutora());
+        obra.addConstrutora(construtoraService.findOrCreateByNome(createDTO.getConstrutora()));
         obra.setValorM2(createDTO.getValorM2());
         obra.setTotalGeral(createDTO.getTotalGeral());
         obra.setDataInicio(createDTO.getDataInicio());
@@ -80,7 +84,10 @@ public class ObraService {
                         obra.setNome(updateDTO.getNome());
                     }
                     if (updateDTO.getConstrutora() != null) {
-                        obra.setConstrutora(updateDTO.getConstrutora());
+                        if (obra.getConstrutoras() != null) {
+                            obra.getConstrutoras().clear();
+                        }
+                        obra.addConstrutora(construtoraService.findOrCreateByNome(updateDTO.getConstrutora()));
                     }
                     if (updateDTO.getValorM2() != null) {
                         obra.setValorM2(updateDTO.getValorM2());
@@ -118,10 +125,19 @@ public class ObraService {
     }
 
     private ObraResponseDTO convertToResponseDTO(ObraModel obra) {
+        // Pegar a primeira construtora (construtora principal) para compatibilidade
+        String construtoraNome = null;
+        Long construtoraId = null;
+        if (obra.getConstrutoras() != null && !obra.getConstrutoras().isEmpty()) {
+            construtoraNome = obra.getConstrutoras().get(0).getNome();
+            construtoraId = obra.getConstrutoras().get(0).getId();
+        }
+        
         return new ObraResponseDTO(
                 obra.getCei(),
                 obra.getNome(),
-                obra.getConstrutora(),
+                construtoraNome,
+                construtoraId,
                 obra.getValorM2(),
                 obra.getTotalGeral(),
                 obra.getDataInicio(),
